@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+a = " ";
+$(document).ready(function(){
+    $.ajax({url: "junk.txt", success: function(result){
+			a = result;
+			obj = JSON.parse(a);
+			obj.courses = sortByRoom(obj.courses);
+    }});
+});
+
+function sortByRoom(newArray) {
+	newArray.sort(function(a, b) {
+		var tA = a.meetingTimes[0].building;
+		var tB = b.meetingTimes[0].building;
+		return (tA < tB) ? -1 : (tA > tB) ? 1 : 0;
+	});
+	return newArray;
+}
+
+function showByRoom() {
+	xx = "";
+	for(var i = 0; i < obj.courses.length ; i++) 
+		xx = xx + obj.courses[i].prefix + " " 
+			+ obj.courses[i].courseNumber + " " 
+			+ obj.courses[i].meetingTimes[0].building + " " 
+			+ obj.courses[i].meetingTimes[0].room +" <br>";
+	$("#demo").html(xx);
+}
+
+var obj;
+
+</script>
+</head>
+<body>
+
+<div id="demo">Let jQuery AJAX Change This Text</div>
+
+<button type="button" onclick="showByRoom()">Change Content</button>
+
+<p>While it causes some inconveniences on my end, ultimately the same-origin policy 
+is beneficial to security. A callback function is a function which acts as an argument 
+to another function. I don't think it's a good way to make each item of a list a different 
+color because that doesn't seem to be something it's capable of, at least not reasonably. 
+The included page you linked for jQuery.map() accomplishes this with CSS and uses map
+more to modify each element of an array in a specific way, such as doubling each value
+or capitalizing each value. Nowhere in the examples is jQuery.map() used to change colors
+and I couldn't find anything on this using Google.</p>
+
+</body>
+</html>

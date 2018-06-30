@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Assignment 5</h1>
+
+<p id="demo">Let AJAX change this text.</p>
+
+<button type="button" onclick="showDoc()">Change Content</button>
+
+<script>
+
+function loadDoc() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			var rt = this.responseText;
+			obj = JSON.parse(rt);
+			obj.courses = sortByRoom(obj.courses);
+		}
+	};
+	xhttp.open("GET", "https://api.svsu.edu/courses?prefix=CIS&courseNumber=255", true);
+	xhttp.send();
+}
+
+function sortByRoom(newArray) {
+	newArray.sort(function(a, b) {
+		var tA = a.meetingTimes[0].building;
+		var tB = b.meetingTimes[0].building;
+		return (tA < tB) ? -1 : (tA > tB) ? 1 : 0;
+	});
+	return newArray;
+}
+
+function showDoc() {
+	xx = "";
+    for(var i =0; i < obj.courses.length ; i++) 
+        xx = xx + obj.courses[i].prefix + " " 
+	         + obj.courses[i].courseNumber + " " 
+			 + obj.courses[i].meetingTimes[0].building + " " 
+			 + obj.courses[i].meetingTimes[0].room +" <br>";
+    document.getElementById("demo").innerHTML = xx;
+}
+
+var obj;
+window.onload = function() {loadDoc();};
+
+</script>
+
+</body>
+</html>
+
